@@ -26,4 +26,16 @@ def evaluateEER(user_scores, imposter_scores):
     a = ( x[0] - x[1] ) / ( y[1] - x[1] - y[0] + x[0] )
     eer = x[0] + a * ( y[0] - x[0] )
     return eer
-        
+
+
+def evaluateFAR(user_scores, imposter_scores):
+    labels = [0] * len(user_scores) + [1] * len(imposter_scores)
+    fpr, tpr, thresholds = roc_curve(labels, user_scores + imposter_scores)
+    missrates = 1 - tpr
+    farates = fpr
+    dists = np.abs(missrates - farates)
+    idx = np.argmin(dists)
+    FAR = fpr[idx]
+
+    return FAR
+

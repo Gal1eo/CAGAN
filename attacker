@@ -1,0 +1,4 @@
+import pandas
+
+attacker_data = pandas.read_csv('attaker/data.csv')
+print(attacker_data)

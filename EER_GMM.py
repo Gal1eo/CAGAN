@@ -8,7 +8,7 @@ import numpy as np
 np.set_printoptions(suppress = True)
 
 def evaluateEERGMM(user_scores, imposter_scores):
-    thresholds = range(20,51)
+    thresholds = range(-20,1)
     array = np.zeros((len(thresholds),3))
     i = 0
     for th in thresholds:
@@ -27,11 +27,15 @@ def evaluateEERGMM(user_scores, imposter_scores):
         array[i, 1] = FA
         array[i, 2] = FR
         i = i + 1
-    
+
+    thresh = array[0,0]
     for j in range(array.shape[0]):
         if array[j,1] < array[j,2]:
             thresh = (array[j,0] + array[j - 1, 0]) / 2
             break
+
+
+
     g_i = 0
     i_g = 0
     for score in user_scores:
@@ -43,5 +47,5 @@ def evaluateEERGMM(user_scores, imposter_scores):
 
     FA = float(i_g) / len(imposter_scores) 
     FR = float(g_i) / len(user_scores)
-    return (FA + FR) /2
+    return FA
     

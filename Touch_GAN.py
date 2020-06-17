@@ -22,11 +22,11 @@ import torch
 from Touch_SVM import SVMDetector
 from Touch_SVM import normalize_df
 from Keystroke_GMM import GMMDetector
-#from Keystroke_LSVM import LSVMDetector
-
+from Touch_LSVM import LSVMDetector
+from Touch_GMM import GMMDetector
 
 parser = argparse.ArgumentParser()
-parser.add_argument("--n_epochs", type=int, default=50, help="number of epochs of training")
+parser.add_argument("--n_epochs", type=int, default=100, help="number of epochs of training")
 parser.add_argument("--batch_size", type=int, default=8, help="size of the batches")
 parser.add_argument("--lr", type=float, default=0.00005, help="learning rate")
 parser.add_argument("--n_cpu", type=int, default=4, help="number of cpu threads to use during batch generation")
@@ -222,7 +222,7 @@ for target_subject in subjects:
 
     genuine_user_data = normalize_df(genuine_user_data[:400])
 
-    train_data = genuine_user_data[:200]
+    train_data = genuine_user_data[:160]
     mean_of_train = np.mean(np.single(train_data.values),axis=0)
     list_mean_of_train = list(mean_of_train)
     train_data = torch.from_numpy(np.single(train_data.values))
@@ -310,17 +310,18 @@ for target_subject in subjects:
     #k = TransGenerator().forward(Adversarial_attack_subject2)
     k = Adversarial_attack_subject2
     #k.reshape(1,-1)
-    print(SVMDetector(target_subject,data,k).evaluate())
-    #print(SVMDetector("s003",data,Q).evaluate())
-    #filename = "attacker/" + "data" + target_subject + str(opt.n_epochs) + ".csv"
-    #filepath = os.path.join("attacker",filename)
-    #np.savetxt(filename, k, delimiter=",")
-    #print(SVMDetector(target_subject,data,k).evaluate())
+    print(GMMDetector(target_subject,data,k).evaluate())
+          # LSVMDetector(target_subject,data,k).evaluate(),
+          # GMMDetector(target_subject,data,k).evaluate())
+    # print(LSVMDetector(target_subject,data,k).evaluate())
     attacker_data.append(k)
     #toc = time.time()
     #print(toc-tic)
 
 
-print(SVMDetector(subjects,data,attacker_data).evaluate())
+# print(SVMDetector(subjects,data,attacker_data).evaluate(),
+#       LSVMDetector(subjects,data,attacker_data).evaluate(),
+#       GMMDetector(subjects,data,attacker_data).evaluate()
+#       )
 
 

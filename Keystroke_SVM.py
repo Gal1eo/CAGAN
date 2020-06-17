@@ -47,14 +47,14 @@ class SVMDetector:
 
                 self.train = genuine_user_data[:200]
                 self.test_genuine = genuine_user_data[200:]
-                self.test_imposter = imposter_data.groupby("subject"). \
-                                     tail(6).loc[:, "H.period":"H.Return"]
-                #self.test_imposter = self.attacker[idx]
+                # self.test_imposter = imposter_data.groupby("subject"). \
+                #                      tail(6).loc[:, "H.period":"H.Return"]
+                self.test_imposter = self.attacker[idx]
 
                 self.training()
                 self.testing()
-                eers.append(evaluateEER(self.u_scores, \
-                                         self.i_scores))
+                # eers.append(evaluateEER(self.u_scores, \
+                #                          self.i_scores))
                 fpr.append(evaluateFAR(self.u_scores,self.i_scores))
 
         else:
@@ -65,14 +65,14 @@ class SVMDetector:
 
             self.train = genuine_user_data[:200]
             self.test_genuine = genuine_user_data[200:]
-            self.test_imposter = imposter_data.groupby("subject"). \
-                                     tail(6).loc[:, "H.period":"H.Return"]
-            #self.test_imposter = self.attacker
+            # self.test_imposter = imposter_data.groupby("subject"). \
+            #                          tail(6).loc[:, "H.period":"H.Return"]
+            self.test_imposter = self.attacker
 
             self.training()
             self.testing()
-            eers.append(evaluateEER(self.u_scores, \
-                                    self.i_scores))
+            # eers.append(evaluateEER(self.u_scores, \
+            #                         self.i_scores))
             fpr.append(evaluateFAR(self.u_scores, self.i_scores))
 
 

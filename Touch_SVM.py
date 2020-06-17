@@ -76,14 +76,7 @@ class SVMDetector:
 
                 self.train = genuine_user_data[:200]
                 self.test_genuine = genuine_user_data[200:400]
-                # self.test_imposter = normalize(imposter_data.groupby("user_id"). \
-                #                          tail(10).loc[:, ["stroke duration", 'start $x$', 'start $y$', 'stop $x$', 'stop $y$',
-                #                                          'length of trajectory', 'mid-stroke pressure', 'mid-stroke area covered',
-                #                                          '20\%-perc. pairwise velocity', '50\%-perc. pairwise velocity',
-                #                                          '20\%-perc. dev. from end-to-end line', '50\%-perc. dev. from end-to-end line',
-                #                                          '80\%-perc. dev. from end-to-end line']])
-                # print(idx)
-                # self.test_imposter = normalize_np(self.attacker[idx])
+
                 self.test_imposter = self.attacker[idx]
 
                 self.training()
